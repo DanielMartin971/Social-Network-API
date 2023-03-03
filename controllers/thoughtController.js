@@ -2,7 +2,7 @@ const { User, Thought, Reaction } = require('../models');
 
 module.exports = {
 
-    // Get all thoughts
+    // This just grabs all thoughts
     getThoughts(req, res) {
         Thought.find({})
             .populate({ path: 'reactions', select: '-__v' })
@@ -14,7 +14,7 @@ module.exports = {
             })
     },
 
-    // Get thoughts by ID
+    // Allows user to get thoughts by a specific user
     getUserThoughts(req, res) {
         Thought.findOne({ _id: req.params.id })
             .populate({ path: 'reactions', select: '-__v' })
@@ -30,7 +30,7 @@ module.exports = {
             });
     },
 
-    // Create thoughts
+    // You can create thoughts by selecting a specific user 
     createThought(req, res) {
         Thought.create(req.body)
             .then(thoughtData => {
@@ -49,7 +49,7 @@ module.exports = {
             .catch(err => res.status(400).json(err));
     },
 
-    // Update thought
+    // This allows you to update thoughts by specific IDs
     updateThought(req, res) {
         Thought.findOneAndUpdate(
             { _id: req.params.thoughtId },
@@ -65,7 +65,7 @@ module.exports = {
     },
 
 
-    // Delete thought by id
+    // This function gets a thought by its ID specifially and allows for deletion
     deleteThought(req, res) {
         Thought.findOneAndDelete({ _id: req.params.thoughtId })
             .then((thoughtData) => {
@@ -83,7 +83,7 @@ module.exports = {
             .catch(err => res.status(500).json(err));
     },
 
-    // Add a reaction
+    // You can add a reaction to a specific thought by ID
     addReaction(req, res) {
         Thought.findOneAndUpdate(
             { _id: req.params.thoughtId },
@@ -98,11 +98,11 @@ module.exports = {
             .catch(err => res.status(500).json(err));
     },
 
-    // Delete reaction
+    // Removing reactions 
     deleteReaction(req, res) {
         Thought.findOneAndUpdate(
             { _id: req.params.thoughtId },
-            { $pull: { reactions: { reactionId: req.params.reactionId } } },  //reactionId is undegined?
+            { $pull: { reactions: { reactionId: req.params.reactionId } } },
             { new: true }
         )
             .then((thoughtData) =>
