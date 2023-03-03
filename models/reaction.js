@@ -4,7 +4,7 @@ const moment = require('moment');
 const reactionSchema = new Schema({
     reactionId: {
         type: Schema.Types.ObjectId,
-        default: () => new Types.ObjectId();
+        default: () => new Types.ObjectId()
     },
     reactionBody: {
         type: String,
@@ -28,6 +28,4 @@ const reactionSchema = new Schema({
     id: false
 });
 
-const Reaction = model('User', reactionSchema);
-
-module.exports = Reaction;
+module.exports = reactionSchema;
