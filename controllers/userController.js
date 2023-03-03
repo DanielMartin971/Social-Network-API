@@ -21,4 +21,19 @@ module.exports = {
             )
             .catch((err) => res.status(500).json(err));
     },
+    createUser(req, res) {
+
+    },
+    updateUser(req, res) {
+
+    },
+    deleteUser(req, res) {
+
+    },
+    addFriend(req, res) {
+
+    },
+    deleteFriend(req, res) {
+        
+    }
 }
