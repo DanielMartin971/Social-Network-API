@@ -1,3 +1,4 @@
+// We require a dotenv connection here for a secure connection 
 require('dotenv').config();
 
 const { connect, connection } = require('mongoose');

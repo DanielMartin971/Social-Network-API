@@ -1,3 +1,4 @@
+// We add express, the db connection, and routes all to this server
 const express  = require('express');
 const db       = require('./config/connection');
 const routes   = require('./routes');
