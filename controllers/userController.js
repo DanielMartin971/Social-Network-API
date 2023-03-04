@@ -1,14 +1,17 @@
 const User = require('../models/User');
 
 module.exports = {
+    // This allows us to get all users by finding them 
     getUsers(req, res) {
         User.find({})
         .select('-__v')
         .then((users) => res.json(users))
         .catch((err) => res.status(500).json(err));
     },
+    // A function designed to get a single user by their ID
     getSingleUser(req, res) {
         User.findOne({ _id: req.params.userId })
+            // This allows us to get thoughts and friends that the single user has
             .populate([
                 { path: 'thoughts', select: '-__v' },
                 { path: 'friends', select: '-__v' },
@@ -21,17 +24,20 @@ module.exports = {
             )
             .catch((err) => res.status(500).json(err));
     },
+    // This allows us to create a user and if there is a error to print out the status
     createUser(req, res) {
         User.create(req.body)
             .then((user) => res.json(user))
             .catch((err) => res.status(500).json(err));
     },
+    // We can update a user by getting their ID
     updateUser(req, res) {
         User.findOneAndUpdate(
             { _id: req.params.userId },
             req.body,
             { new: true, runValidators: true }
         )
+            // We have a IF statement here that either we dont find a user by ID or if we do we continue the update
             .then((UserData) => {
                 !UserData
                     ? res.status(404).json({ message: 'No thought found with this ID' })
@@ -39,6 +45,7 @@ module.exports = {
             })
             .catch(err => res.status(400).json(err));
     },
+    // This allows us to delete a user by specific ID
     deleteUser(req, res) {
         User.findOneAndDelete({ _id: req.params.userId })
         .then(userData => {
@@ -59,6 +66,7 @@ module.exports = {
         })
         .catch(err => res.status(400).json(err));
     },
+    // We can add a friend by updating a user
     addFriend(req, res) {
         User.findOneAndUpdate(
             { _id: req.params.userId },
